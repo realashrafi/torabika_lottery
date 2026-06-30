@@ -93,7 +93,7 @@ export default function LotteryPage() {
 
     return (
         <main className="min-h-screen text-white relative overflow-hidden flex flex-col items-center justify-between py-6">
-            <div className="w-full fixed inset-0 mb-8">
+            <div className="max-w-[3000px] mx-auto w-full fixed inset-0 mb-8">
                 <DataTable />
             </div>
             {/* 1. هدر و لوگوی استیج */}
