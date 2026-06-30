@@ -1,5 +1,5 @@
 export type Participant = {
-    row: number
+    row: string
     firstName: string
     lastName: string
     phone: string

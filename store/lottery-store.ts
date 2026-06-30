@@ -24,15 +24,18 @@ export const useLotteryStore = create<LotteryState>((set, get) => ({
         set({
             allRows: rows,
             visibleRows: rows,
+            prefix: "",
+            digits: [],
+            winner: null,
         }),
 
     addDigit: (digit) => {
-        const { prefix, allRows } = get()
+        const { prefix, visibleRows } = get()
 
         const nextPrefix = prefix + digit
 
-        const filtered = allRows.filter((r) =>
-            String(r.row).startsWith(nextPrefix)
+        const filtered = visibleRows.filter((r) =>
+            r.row.startsWith(nextPrefix)
         )
 
         set({
@@ -43,10 +46,14 @@ export const useLotteryStore = create<LotteryState>((set, get) => ({
         })
     },
 
-    reset: () =>
+    reset: () => {
+        const rows = get().allRows
+
         set({
             prefix: "",
             digits: [],
             winner: null,
-        }),
+            visibleRows: rows,
+        })
+    },
 }))

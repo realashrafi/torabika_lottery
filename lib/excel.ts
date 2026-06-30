@@ -1,15 +1,15 @@
 import * as XLSX from "xlsx"
 import { Participant } from "@/types"
 
-export function parseExcel(file: File): Participant[] {
-    const workbook = XLSX.read(file, { type: "array" })
+export function parseExcel(buffer: ArrayBuffer): Participant[] {
+    const workbook = XLSX.read(buffer, { type: "array" })
 
     const sheet = workbook.Sheets[workbook.SheetNames[0]]
 
     const data = XLSX.utils.sheet_to_json<any>(sheet)
 
     return data.map((row) => ({
-        row: Number(row["ردیف"]),
+        row: String(row["ردیف"]).padStart(5, "0"),
         firstName: row["نام"],
         lastName: row["نام خانوادگی"],
         phone: String(row["شماره"]),
