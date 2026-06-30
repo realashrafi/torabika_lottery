@@ -39,3 +39,12 @@ body {
   opacity: 0;
   pointer-events: none;
 }
+
+@keyframes ticker {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

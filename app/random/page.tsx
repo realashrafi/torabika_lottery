@@ -1,10 +1,8 @@
-import React from 'react';
+
 import RandomLotteryPage from "@/app/components/RandomLotteryPage";
 
 function Page() {
-    return (
-<RandomLotteryPage/>
-    );
+    return <RandomLotteryPage/>;
 }
 
 export default Page;
