@@ -133,32 +133,65 @@ export default function LotteryPage() {
 
             {/* 3. پنل کنترل پایینی (شبیه‌ساز کنسول فیزیکی) */}
             <div className="w-full max-w-lg z-10">
-                <div className="bg-gradient-to-b from-gray-200 to-gray-400 p-6 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border-t-2 border-white flex flex-col items-center gap-4">
-                    <p className="text-gray-700 text-xs font-bold uppercase tracking-widest">Select Number</p>
+                <div className="
+    relative p-6 rounded-3xl
+    bg-red-900/20
+    border border-red-500/20
+    backdrop-blur-sm
+    shadow-[0_0_60px_rgba(220,38,38,0.15)]
+  ">
 
-                    <div className="flex gap-2">
-                        {inputValues.map((val, i) => (
-                            <input
-                                key={i}
-                                ref={inputRefs[i]}
-                                type="text"
-                                maxLength={1}
-                                value={val}
-                                onChange={(e) => handleInputChange(i, e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(i, e)}
-                                className="w-12 h-14 bg-white border-2 border-gray-300 rounded-lg text-black text-2xl font-bold text-center focus:border-red-500 focus:ring-2 focus:ring-red-200 focus:outline-none transition-all shadow-inner"
-                            />
-                        ))}
+                    <div className="flex flex-col items-center gap-5">
+
+                        <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-red-300/80">
+                            Select Number
+                        </p>
+
+                        <div className="flex gap-3">
+                            {inputValues.map((val, i) => (
+                                <input
+                                    key={i}
+                                    ref={inputRefs[i]}
+                                    type="text"
+                                    maxLength={1}
+                                    value={val}
+                                    onChange={(e) => handleInputChange(i, e.target.value)}
+                                    onKeyDown={(e) => handleKeyDown(i, e)}
+                                    className="
+              w-12 h-14 rounded-xl text-center
+              text-white text-xl font-mono font-black
+              border-2 border-red-500/50
+              bg-gradient-to-b from-red-600 to-red-900
+              shadow-[0_0_20px_rgba(220,38,38,0.35),inset_0_0_10px_rgba(0,0,0,0.5)]
+              focus:outline-none
+              focus:ring-2 focus:ring-red-400
+              transition-all duration-200
+              caret-red-300
+            "
+                                />
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={handleFullReset}
+                            className="
+          mt-2 px-8 py-2 rounded-full
+          bg-gradient-to-b from-red-500 to-red-700
+          border border-red-400/40
+          text-white text-xs font-bold uppercase tracking-wider
+          shadow-[0_0_25px_rgba(220,38,38,0.4)]
+          hover:brightness-110
+          active:scale-95
+          transition
+        "
+                        >
+                            Reset / Clear
+                        </button>
+
                     </div>
-
-                    <button
-                        onClick={handleFullReset}
-                        className="mt-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase px-8 py-2.5 rounded-full transition-all shadow-md hover:shadow-red-500/30 active:scale-95"
-                    >
-                        Reset / Clear
-                    </button>
                 </div>
             </div>
+
 
             {/* دکمه مخفی بارگذاری فایل اکسل */}
             {allRows.length === 0 && (

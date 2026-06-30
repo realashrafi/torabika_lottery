@@ -1,11 +1,22 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "IranSans";
+  src: url("../public/fonts/YekanBakhFaNum-Regular.ttf")
+  format("woff2"),
+  url("../public/fonts/YekanBakhFaNum-Regular.ttf")
+  format("woff");
+  font-style: normal;
+}
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 20, 0, 0;
 }
-
+* {
+  font-family: "IranSans" !important;
+}
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
