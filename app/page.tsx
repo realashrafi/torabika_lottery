@@ -108,6 +108,26 @@ export default function LotteryPage() {
 
                 {/* پرتو نوری پس‌زمینه (استیج سینمایی) */}
                 <div className="absolute inset-0 bg-gradient-to-b from-red-900/30 via-red-950/10 to-transparent rounded-[120px/50px] border-t border-red-500/40 blur-md -z-10 h-[450px]" />
+<div className={'p-3 mb-20 rounded-3xl\n' +
+    '    bg-red-900/20\n' +
+    '    border border-red-500/20\n' +
+    '    backdrop-blur-sm'}>
+    <input
+        type="text"
+        className="
+              w-[500px] h-14 rounded-xl text-center
+              text-white text-xl font-mono font-black
+              border-2 border-red-500/50
+              bg-gradient-to-b from-red-600 to-red-900
+              shadow-[0_0_20px_rgba(220,38,38,0.35),inset_0_0_10px_rgba(0,0,0,0.5)]
+              focus:outline-none
+              focus:ring-2 focus:ring-red-400
+              transition-all duration-200
+              caret-red-300
+            "
+    />
+</div>
+
 
                 {/* نمایشگر بزرگ LED */}
                 <div className="mb-6">
@@ -127,7 +147,7 @@ export default function LotteryPage() {
                     </div>
                 </div>
 
-                {/* ۳. جدول اسکرول شونده در مرکز صفحه */}
+
 
             </div>
 
