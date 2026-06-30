@@ -1,21 +1,45 @@
-import * as XLSX from "xlsx"
-import { Participant } from "@/types"
+import * as XLSX from "xlsx";
+import { Participant } from "@/types";
 
-export function parseExcel(buffer: ArrayBuffer): Participant[] {
-    const workbook = XLSX.read(buffer, { type: "array" })
+export async function parseExcel(file: File): Promise<Participant[]> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-    const sheet = workbook.Sheets[workbook.SheetNames[0]]
+        reader.onload = (e) => {
+            try {
+                const data = e.target?.result;
+                if (!data) {
+                    resolve([]);
+                    return;
+                }
 
-    const data = XLSX.utils.sheet_to_json<any>(sheet)
+                // خواندن با فرمت array (با پاس دادن مستقیم result از reader.readAsArrayBuffer)
+                const workbook = XLSX.read(data, { type: "array" });
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
 
-    return data.map((row) => ({
-        row: String(row["ردیف"]).padStart(5, "0"),
-        firstName: row["نام"],
-        lastName: row["نام خانوادگی"],
-        phone: String(row["شماره"]),
-        province: row["استان"],
-        period: row["دوره"],
-        score: Number(row["امتیاز"]),
-        registeredAt: row["تاریخ ثبت"],
-    }))
+                // تبدیل ردیف‌ها به JSON
+                const rawRows = XLSX.utils.sheet_to_json<any>(sheet);
+
+                // نگاشت به ساختار داده مورد نیاز شما
+                const formattedRows = rawRows.map((row: any) => ({
+                    row: String(row["ردیف"] || ""),
+                    firstName: String(row["نام "] || ""),
+                    lastName: String(row["نام خانوادگی"] || ""),
+                    phone: String(row["شماره"] || ""),
+                    province: String(row["استان"] || ""),
+                    period: String(row["دوره"] || ""),
+                    score: String(row["امتیاز"] || ""),
+                    registeredAt: String(row["تاریخ ثبت"] || ""),
+                }));
+
+                resolve(formattedRows);
+            } catch (error) {
+                reject(error);
+            }
+        };
+
+        reader.onerror = (error) => reject(error);
+        reader.readAsArrayBuffer(file);
+    });
 }

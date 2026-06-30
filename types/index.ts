@@ -5,6 +5,6 @@ export type Participant = {
     phone: string
     province: string
     period: string
-    score: number
+    score: string
     registeredAt: string
 }

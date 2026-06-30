@@ -2,7 +2,7 @@
 
 import { useLotteryStore } from "@/store/lottery-store"
 
-export default function ResetButton() {
+export default function ResetButton(onClick:any) {
     const reset = useLotteryStore((s) => s.reset)
 
     return (
