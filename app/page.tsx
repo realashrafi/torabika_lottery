@@ -6,6 +6,7 @@ import { parseExcel } from "@/lib/excel";
 import DigitDisplay from "./components/DigitDisplay";
 import DataTable from "./components/DataTable";
 import WinnerCard from "./components/WinnerCard";
+import Link from "next/link";
 
 export default function LotteryPage() {
     const { setRows, addDigit, winner, visibleRows, allRows, reset } = useLotteryStore();
@@ -98,8 +99,8 @@ export default function LotteryPage() {
             </div>
             {/* 1. هدر و لوگوی استیج */}
             <div className="flex flex-col items-center z-10">
-                <div className="bg-red-600 px-10 py-3 rounded-md shadow-[0_0_40px_rgba(220,38,38,0.6)] transform -skew-x-12">
-                    <h1 className="text-4xl font-black tracking-widest italic text-white select-none">TORABIKA</h1>
+                <div className="  rounded-md ">
+                    <img src="Logo.png" width={150} alt="logo"/>
                 </div>
             </div>
 
@@ -108,15 +109,15 @@ export default function LotteryPage() {
 
                 {/* پرتو نوری پس‌زمینه (استیج سینمایی) */}
                 <div className="absolute inset-0 bg-gradient-to-b from-red-900/30 via-red-950/10 to-transparent rounded-[120px/50px] border-t border-red-500/40 blur-md -z-10 h-[450px]" />
-<div className={'p-3 mb-20 rounded-3xl\n' +
+<div className={'p-3 mb-10 font-bold  rounded-3xl\n' +
     '    bg-red-900/20\n' +
     '    border border-red-500/20\n' +
     '    backdrop-blur-sm'}>
     <input
         type="text"
         className="
-              w-[500px] h-14 rounded-xl text-center
-              text-white text-xl font-mono font-black
+              w-[500px] h-24 rounded-xl text-center
+              text-white text-5xl  font-black
               border-2 border-red-500/50
               bg-gradient-to-b from-red-600 to-red-900
               shadow-[0_0_20px_rgba(220,38,38,0.35),inset_0_0_10px_rgba(0,0,0,0.5)]
@@ -135,10 +136,10 @@ export default function LotteryPage() {
                 </div>
 
                 {/* پنل تعداد شرکت کنندگان */}
-                <div className="bg-black/80 border z-10 border-red-500/20 rounded-2xl px-8 py-3 backdrop-blur-md flex items-center gap-12 mb-6 shadow-[0_0_20px_rgba(220,38,38,0.15)]">
+                <div className="bg-white/80 border z-10 border-red-500/20 rounded-2xl px-8 py-3 backdrop-blur-md flex items-center gap-12 mb-6 shadow-[0_0_20px_rgba(220,38,38,0.15)]">
                     <div className="text-center">
                         <p className="text-[10px] text-gray-500 uppercase tracking-widest">کل شرکت‌کنندگان</p>
-                        <p className="text-xl font-bold text-gray-200 mt-1">{allRows.length.toLocaleString()}</p>
+                        <p className="text-xl font-bold text-gray-800 mt-1">{allRows.length.toLocaleString()}</p>
                     </div>
                     <div className="h-8 w-px bg-red-500/20" />
                     <div className="text-center">
@@ -208,6 +209,10 @@ export default function LotteryPage() {
                             Reset / Clear
                         </button>
 
+                    </div>
+                    <div className={'flex items-center gap-10 px-10 justify-self-center mt-2'}>
+                        <Link className={'border-red-500/70 rounded-md p-1 border'} href={'/'}>Manual Winner</Link>
+                        <Link className={'border-red-500/70 rounded-md p-1 border'} href={'/random'}>Random Winner</Link>
                     </div>
                 </div>
             </div>
