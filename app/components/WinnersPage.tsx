@@ -62,7 +62,7 @@ export default function WinnersPage() {
 
                 </div>
 
-                <div className="overflow-hidden rounded-3xl border border-red-500/20 bg-black/40 backdrop-blur-md">
+                <div className="overflow-hidden rounded-3xl border border-red-500/20 bg-white/15 backdrop-blur-md">
 
                     <div
                         className="grid grid-cols-8 gap-4 px-6 py-4 bg-red-900/30 border-b border-red-500/20 text-xs uppercase tracking-widest text-red-300 font-bold">

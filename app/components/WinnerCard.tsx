@@ -31,13 +31,13 @@ export default function WinnerCard({ winner }: { winner: Participant }) {
             <motion.div
                 initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute top-12 z-30 flex flex-col items-center"
+                className="absolute top-5 z-30 flex flex-col items-center"
             >
-                <Image
-                    src="/logo.png"
+                <img
+                    src="/Poster-head.png"
                     alt="Company Logo"
-                    width={180}
-                    height={80}
+                    width={400}
+                    height={150}
                     className="opacity-90"
                 />
             </motion.div>
@@ -62,7 +62,7 @@ export default function WinnerCard({ winner }: { winner: Participant }) {
                 <div
                     className="
                     relative
-                    bg-black/95
+                    bg-white/80
                     rounded-[38px]
                     px-20 py-20
                     text-center
@@ -71,6 +71,8 @@ export default function WinnerCard({ winner }: { winner: Participant }) {
                     z-50
                     "
                 >
+                    <img src="/Logo.png" className={'absolute bottom-10 right-1'} width={150} alt="logo"/>
+                    <img src="/cup.png" className={'absolute bottom-10 left-1'} width={150} alt="logo"/>
 
                     {/* subtle glow inside */}
                     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top,rgba(255,215,0,0.15),transparent_60%)]" />
@@ -83,7 +85,7 @@ export default function WinnerCard({ winner }: { winner: Participant }) {
                         rounded-full
                         text-sm font-bold
                         tracking-[0.35em]
-                        text-yellow-300
+                        text-black
                         border border-yellow-500/40
                         bg-yellow-500/10
                         backdrop-blur
@@ -99,7 +101,7 @@ export default function WinnerCard({ winner }: { winner: Participant }) {
                         className="
                             text-7xl
                             font-black
-                            text-white
+                            text-red-500
                             leading-tight
                             mb-10
                             tracking-tight
@@ -120,7 +122,7 @@ export default function WinnerCard({ winner }: { winner: Participant }) {
                     {/* info section */}
                     <div className="space-y-3 mb-12">
 
-                        <p className="text-3xl text-gray-200 tracking-wide">
+                        <p className="text-3xl text-gray-800 tracking-wide">
                             {maskPhone(winner.phone)}
                         </p>
 

@@ -7,6 +7,7 @@ import DataTable from "@/app/components/DataTable";
 import RandomWinnerCard from "@/app/components/RandomWinnerCard";
 import Link from "next/link";
 import NewsTicker from "@/app/components/NewsTicker";
+import PrizeSelector from "@/app/components/PrizeSelector";
 
 export default function RandomLotteryPage() {
 
@@ -76,25 +77,17 @@ export default function RandomLotteryPage() {
 
             </div>
 
-            <div className="flex flex-col items-center z-10">
-                <img src="/Logo.png" width={150} alt="logo" />
+            <img src="/Logo.png" className={'fixed bottom-10 right-1'} width={150} alt="logo"/>
+            <img src="/cup.png" className={'fixed bottom-10 left-1'} width={150} alt="logo"/>
+            <div className="relative flex flex-col items-center z-10">
+                <img src="/Poster-head.png"  width={300} height={200} alt="logo"/>
             </div>
 
             <div className="relative w-full max-w-4xl flex flex-col items-center justify-center px-4 z-10 flex-1 my-4">
 
                 <div className="absolute inset-0 bg-gradient-to-b from-red-900/30 via-red-950/10 to-transparent rounded-[120px/50px] border-t border-red-500/40 blur-md -z-10 h-[450px]" />
 
-                <div className="p-3 mb-10 font-bold rounded-3xl bg-red-900/20 border border-red-500/20 backdrop-blur-sm">
-
-                    <input
-                        type="text"
-                        value={prizeTitle}
-                        onChange={(e)=>setPrizeTitle(e.target.value)}
-                        placeholder="Prize Title"
-                        className="w-[500px] h-24 rounded-xl text-center text-white text-5xl font-black border-2 border-red-500/50 bg-gradient-to-b from-red-600 to-red-900 shadow-[0_0_20px_rgba(220,38,38,0.35)]"
-                    />
-
-                </div>
+                <PrizeSelector className="mb-10" />
 
                 <div className="mb-8">
 

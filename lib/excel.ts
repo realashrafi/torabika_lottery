@@ -24,7 +24,7 @@ export async function parseExcel(file: File): Promise<Participant[]> {
                 // نگاشت به ساختار داده مورد نیاز شما
                 const formattedRows = rawRows.map((row: any) => ({
                     row: String(row["ردیف"] || ""),
-                    firstName: String(row["نام "] || ""),
+                    firstName: String(row["نام"] || ""),
                     lastName: String(row["نام خانوادگی"] || ""),
                     phone: String(row["شماره"] || ""),
                     province: String(row["استان"] || ""),

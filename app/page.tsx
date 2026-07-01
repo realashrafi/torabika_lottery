@@ -9,6 +9,7 @@ import DataTable from "./components/DataTable";
 import WinnerCard from "./components/WinnerCard";
 import Link from "next/link";
 import NewsTicker from "@/app/components/NewsTicker";
+import PrizeSelector from "@/app/components/PrizeSelector";
 
 export default function LotteryPage() {
 
@@ -167,7 +168,7 @@ export default function LotteryPage() {
 
         <main className="min-h-screen text-white relative overflow-hidden flex flex-col items-center justify-between py-6">
 
-            <div className="max-w-[3000px] mx-auto w-full fixed inset-0 mb-8">
+            <div className={`max-w-[3000px] mx-auto w-full fixed ${tableRows.length <= 10 ? 'top-1/3 font-bold bg-red-500/20' : 'inset-0'} mb-8`}>
 
                 <DataTable
                     rows={tableRows}
@@ -177,26 +178,17 @@ export default function LotteryPage() {
                 />
 
             </div>
-
-            <div className="flex flex-col items-center z-10">
-                <img src="/Logo.png" width={150} alt="logo"/>
+            <img src="/Logo.png" className={'fixed bottom-10 right-1'} width={150} alt="logo"/>
+            <img src="/cup.png" className={'fixed bottom-10 left-1'} width={150} alt="logo"/>
+            <div className="relative flex flex-col items-center z-10">
+                <img src="/Poster-head.png"  width={300} height={200} alt="logo"/>
             </div>
 
             <div className="relative w-full max-w-4xl flex flex-col items-center justify-center px-4 z-10 flex-1 my-4">
 
                 <div className="absolute inset-0 bg-gradient-to-b from-red-900/30 via-red-950/10 to-transparent rounded-[120px/50px] border-t border-red-500/40 blur-md -z-10 h-[450px]" />
 
-                <div className="p-3 mb-10 font-bold rounded-3xl bg-red-900/20 border border-red-500/20 backdrop-blur-sm">
-
-                    <input
-                        type="text"
-                        value={prizeTitle}
-                        onChange={(e)=>setPrizeTitle(e.target.value)}
-                        placeholder="Prize Title"
-                        className="w-[500px] h-24 rounded-xl text-center text-white text-5xl font-black border-2 border-red-500/50 bg-gradient-to-b from-red-600 to-red-900"
-                    />
-
-                </div>
+                <PrizeSelector className="mb-5" />
 
                 <motion.div
                     animate={isRolling ? { scale:[1,1.05,1], opacity:[1,0.6,1] } : {}}

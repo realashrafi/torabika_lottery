@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useRef } from 'react';
-import { Renderer, Program, Mesh, Triangle } from 'ogl';
+import { Renderer, Program, Mesh, Triangle, Texture } from 'ogl';
 
 export interface LightfallProps {
     className?: string;
@@ -38,7 +38,7 @@ const hexToRGB = (hex: string): RGB => {
 };
 
 const prepColors = (input?: string[]) => {
-    const base = (input && input.length ? input : ['#A6C8FF', '#5227FF', '#FF9FFC']).slice(0, MAX_COLORS);
+    const base = (input && input.length ? input : ['#ff2b6a', '#ffffff', '#a855f7']).slice(0, MAX_COLORS);
     const count = base.length;
     const arr: RGB[] = [];
     for (let i = 0; i < MAX_COLORS; i++) arr.push(hexToRGB(base[Math.min(i, base.length - 1)]));
@@ -71,14 +71,7 @@ uniform vec3  iResolution;
 uniform vec2  iMouse;
 uniform float iTime;
 
-uniform vec3  uColor0;
-uniform vec3  uColor1;
-uniform vec3  uColor2;
-uniform vec3  uColor3;
-uniform vec3  uColor4;
-uniform vec3  uColor5;
-uniform vec3  uColor6;
-uniform vec3  uColor7;
+uniform vec3  uColor0, uColor1, uColor2, uColor3, uColor4, uColor5, uColor6, uColor7;
 uniform int   uColorCount;
 
 uniform vec3  uBgColor;
@@ -96,6 +89,8 @@ uniform float uOpacity;
 uniform float uMouseEnabled;
 uniform float uMouseStrength;
 uniform float uMouseRadius;
+
+uniform sampler2D uHeadTexture;
 
 varying vec2 vUv;
 
@@ -174,9 +169,22 @@ void mainImage(out vec4 o, vec2 C) {
     vec3 col = palette(h);
     float weight = mix(1.5, 1.0 + sin(T + 7.0 * h + 4.0), uTwinkle);
     weight *= (1.0 + mGlow * 2.0);
+
+    // High precision streak (tail)
     vec2 inner = vec2(length(max(Pp, vec2(-1.0, 0.0))), length(Pp) - zr) - zr;
     vec2 sm = vec2(1.0) - smoothstep(-rr, rr, inner);
-    O.rgb += dot(sm, vec2(exp(tail * Pp.y), 3.0)) * col * weight;
+    
+    // Original tail rendering
+    O.rgb += sm.x * exp(tail * Pp.y) * col * weight;
+
+    // رندر عکس اختصاصی با اندازه بزرگتر (قابل تنظیم با تغییر ضریب 50.0)
+    float headSize = zr * 12.0; 
+    vec2 headUV = Pp / headSize + 0.5;
+    if (headUV.x >= 0.0 && headUV.x <= 1.0 && headUV.y >= 0.0 && headUV.y <= 1.0) {
+        vec4 headSample = texture2D(uHeadTexture, headUV);
+        O.rgb += headSample.rgb * headSample.a * weight * 1.5;
+    }
+
     C.x += Y.x / 8.0;
   }
 
@@ -191,21 +199,22 @@ void main() {
 }
 `;
 
+
 const Lightfall: React.FC<LightfallProps> = ({
                                                  className,
                                                  dpr,
                                                  paused = false,
-                                                 colors = ['#ff0000', '#ff0000', '#ff0000'],
-                                                 backgroundColor = '#ffffff',
+                                                 colors = ['#ff2b6a', '#ffffff', '#a855f7'],
+                                                 backgroundColor = '#05010a',
                                                  speed = 0.5,
-                                                 streakCount = 2,
-                                                 streakWidth = 1,
-                                                 streakLength = 1,
-                                                 glow = 1,
-                                                 density = 0.6,
-                                                 twinkle = 1,
+                                                 streakCount = 8,
+                                                 streakWidth = 1.2,
+                                                 streakLength = 1.2,
+                                                 glow = 1.3,
+                                                 density = 0.8,
+                                                 twinkle = 0.6,
                                                  zoom = 3,
-                                                 backgroundGlow = 0.5,
+                                                 backgroundGlow = 0.4,
                                                  opacity = 1,
                                                  mouseInteraction = true,
                                                  mouseStrength = 0.5,
@@ -240,20 +249,26 @@ const Lightfall: React.FC<LightfallProps> = ({
         canvas.style.display = 'block';
         container.appendChild(canvas);
 
+        // --- NEW: Load Head Texture ---
+        const texture = new Texture(gl, { generateMipmaps: true });
+        const img = new Image();
+        img.src = '/head.png';
+        img.onload = () => {
+            texture.image = img;
+            texture.needsUpdate = true;
+        };
+
         const { arr, count, avg } = prepColors(colors);
 
         const uniforms = {
             iResolution: { value: [gl.drawingBufferWidth, gl.drawingBufferHeight, 1] },
             iMouse: { value: [0, 0] },
             iTime: { value: 0 },
-            uColor0: { value: arr[0] },
-            uColor1: { value: arr[1] },
-            uColor2: { value: arr[2] },
-            uColor3: { value: arr[3] },
-            uColor4: { value: arr[4] },
-            uColor5: { value: arr[5] },
-            uColor6: { value: arr[6] },
-            uColor7: { value: arr[7] },
+            uHeadTexture: { value: texture }, // Pass texture
+            uColor0: { value: arr[0] }, uColor1: { value: arr[1] },
+            uColor2: { value: arr[2] }, uColor3: { value: arr[3] },
+            uColor4: { value: arr[4] }, uColor5: { value: arr[5] },
+            uColor6: { value: arr[6] }, uColor7: { value: arr[7] },
             uColorCount: { value: count },
             uBgColor: { value: hexToRGB(backgroundColor) },
             uMouseColor: { value: avg },
@@ -296,9 +311,6 @@ const Lightfall: React.FC<LightfallProps> = ({
             const x = (e.clientX - rect.left) * scale;
             const y = (rect.height - (e.clientY - rect.top)) * scale;
             mouseTargetRef.current = [x, y];
-            if (mouseDampening <= 0) {
-                uniforms.iMouse.value = [x, y];
-            }
         };
         if (mouseInteraction) {
             canvas.addEventListener('pointermove', onPointerMove);
@@ -307,80 +319,45 @@ const Lightfall: React.FC<LightfallProps> = ({
         const loop = (t: number) => {
             rafRef.current = requestAnimationFrame(loop);
             uniforms.iTime.value = t * 0.001;
+
             if (mouseDampening > 0) {
                 if (!lastTimeRef.current) lastTimeRef.current = t;
                 const dt = (t - lastTimeRef.current) / 1000;
                 lastTimeRef.current = t;
-                const tau = Math.max(1e-4, mouseDampening);
-                let factor = 1 - Math.exp(-dt / tau);
-                if (factor > 1) factor = 1;
+                const factor = 1 - Math.exp(-dt / Math.max(1e-4, mouseDampening));
                 const target = mouseTargetRef.current;
                 const cur = uniforms.iMouse.value as number[];
                 cur[0] += (target[0] - cur[0]) * factor;
                 cur[1] += (target[1] - cur[1]) * factor;
-            } else {
-                lastTimeRef.current = t;
             }
+
             if (!paused && programRef.current && meshRef.current) {
-                try {
-                    renderer.render({ scene: meshRef.current });
-                } catch (e) {
-                    console.error(e);
-                }
+                renderer.render({ scene: meshRef.current });
             }
         };
         rafRef.current = requestAnimationFrame(loop);
 
         return () => {
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
-            if (mouseInteraction) canvas.removeEventListener('pointermove', onPointerMove);
+
+            if (mouseInteraction) {
+                canvas.removeEventListener('pointermove', onPointerMove);
+            }
+
             ro.disconnect();
+
             if (canvas.parentElement === container) {
                 container.removeChild(canvas);
             }
-            const callIfFn = (obj: unknown, key: string) => {
-                const fn = obj && (obj as Record<string, unknown>)[key];
-                if (typeof fn === 'function') {
-                    (fn as () => void).call(obj);
-                }
-            };
-            callIfFn(programRef.current, 'remove');
-            callIfFn(geometryRef.current, 'remove');
-            callIfFn(meshRef.current, 'remove');
-            callIfFn(rendererRef.current, 'destroy');
-            programRef.current = null;
-            geometryRef.current = null;
-            meshRef.current = null;
-            rendererRef.current = null;
         };
-    }, [
-        dpr,
-        paused,
-        colors,
-        backgroundColor,
-        speed,
-        streakCount,
-        streakWidth,
-        streakLength,
-        glow,
-        density,
-        twinkle,
-        zoom,
-        backgroundGlow,
-        opacity,
-        mouseInteraction,
-        mouseStrength,
-        mouseRadius,
-        mouseDampening
-    ]);
+
+    }, [dpr, paused, colors, backgroundColor, speed, streakCount, streakWidth, streakLength, glow, density, twinkle, zoom, backgroundGlow, opacity, mouseInteraction, mouseStrength, mouseRadius, mouseDampening]);
 
     return (
         <div
             ref={containerRef}
             className={`w-full h-full overflow-hidden relative ${className ?? ''}`}
-            style={{
-                ...(mixBlendMode && { mixBlendMode: mixBlendMode as React.CSSProperties['mixBlendMode'] })
-            }}
+            style={{ ...(mixBlendMode && { mixBlendMode: mixBlendMode as any }) }}
         />
     );
 };

@@ -48,3 +48,6 @@ body {
     transform: translateX(-100%);
   }
 }
+.custom-font{
+  font-family: "sans-serif" !important;
+}
