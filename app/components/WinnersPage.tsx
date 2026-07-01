@@ -44,21 +44,7 @@ export default function WinnersPage() {
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        <Link
-                            href="/"
-                            className="px-4 py-2 rounded-xl border border-red-500/40 bg-red-900/20 hover:bg-red-900/40 transition"
-                        >
-                            Manual
-                        </Link>
 
-                        <Link
-                            href="/random"
-                            className="px-4 py-2 rounded-xl border border-red-500/40 bg-red-900/20 hover:bg-red-900/40 transition"
-                        >
-                            Random
-                        </Link>
-                    </div>
 
                 </div>
 

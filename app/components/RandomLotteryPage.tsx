@@ -153,7 +153,7 @@ export default function RandomLotteryPage() {
                         <div
                             className="flex items-center gap-3 bg-black/40 px-4 py-2 rounded-full border border-red-500/30">
                             <span
-                                className={`text-[11px] font-bold transition-colors ${!isStaticMode ? 'text-white' : 'text-gray-500'}`}>عادی</span>
+                                className={`text-[11px] font-bold transition-colors ${!isStaticMode ? 'text-white' : 'text-gray-500'}`}>جوایز مصرفکنندگان</span>
                             <button
                                 type="button"
                                 onClick={() => {
@@ -171,7 +171,7 @@ export default function RandomLotteryPage() {
                                 />
                             </button>
                             <span
-                                className={`text-[11px] font-bold transition-colors ${isStaticMode ? 'text-red-400' : 'text-gray-500'}`}>لیست اختصاصی</span>
+                                className={`text-[11px] font-bold transition-colors ${isStaticMode ? 'text-red-400' : 'text-gray-500'}`}>جوایز فروشندگان</span>
                         </div>
 
                         <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-red-300/80">
@@ -182,7 +182,7 @@ export default function RandomLotteryPage() {
                             type="number"
                             min={1}
                             max={isStaticMode ? staticWinnersList.length : (availableRows.length || 1)}
-                            value={isStaticMode ? 25 : count}
+                            value={count}
                             onChange={(e) => setCount(Math.max(1, Number(e.target.value) || 1))}
                             className="w-full h-16 rounded-xl text-center text-white text-4xl font-black border-2 border-red-500/50 bg-gradient-to-b from-red-600 to-red-900"
                         />
