@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import "./globals.css";
 import Lightfall from "@/app/components/Lightfall";
 import ResetAllButton from "@/app/components/ResetAllButton";
+import CoffeeFall from "@/app/components/CoffeeFall";
 
 
 export const metadata: Metadata = {
@@ -22,23 +23,15 @@ export default function RootLayout({
         <body className="min-h-full flex flex-col">
 
         <div style={{width: '100%', height: '100vh', position: 'fixed'}}>
-            <Lightfall
-                colors={['#D50011', '#ffffff', '#ffffff']}
-                backgroundColor="#ffffff"
-                speed={0.3}
-                streakCount={1}
-                streakWidth={1}
-                streakLength={1}
-                glow={1}
-                density={0.6}
-                twinkle={1}
-                zoom={1}
-                backgroundGlow={0.1}
-                opacity={1}
-                mouseInteraction
-                mouseStrength={0.5}
-                mouseRadius={1}
-            />
+            <CoffeeFall images={['head.png', 'Logo.png', 'flip7.png','PS5.png',
+                'A56.png',
+                'A16.png',
+                'flip7.png',
+                'CHARGE6.png',
+                'WaveBeam.png',
+                'tune720.png',
+                'BLACKSHARCK.png',
+                'oneyear.png',]} />
         </div>
 
         <ResetAllButton/>
