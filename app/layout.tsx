@@ -23,7 +23,13 @@ export default function RootLayout({
         <body className="min-h-full flex flex-col">
 
         <div style={{width: '100%', height: '100vh', position: 'fixed'}}>
-            <CoffeeFall images={['head.png', 'Logo.png', 'flip7.png','PS5.png',
+            <CoffeeFall images={['head.png', 'Logo.png', 'flip7.png', 'PS5.png',
+                'coffee bean 2.png',
+                'coffee bean 3.png',
+                'coffee bean 4.png',
+                'coffee bean 5.png',
+                'coffee bean 6.png',
+                'coffee bean 7.png',
                 'A56.png',
                 'A16.png',
                 'flip7.png',
@@ -31,7 +37,7 @@ export default function RootLayout({
                 'WaveBeam.png',
                 'tune720.png',
                 'BLACKSHARCK.png',
-                'oneyear.png',]} />
+                'oneyear.png',]}/>
         </div>
 
         <ResetAllButton/>
